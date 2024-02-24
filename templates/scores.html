@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}Scores{% endblock %}
+
+{% block main %}
+	<div class="center">
+		<h1>مبارك لك</h1>
+		<br>
+    <div style="font-size: 60px;">
+      <p>لقد حققت نتيجة {{ score }} من أصل 10 نقاط</p>
+      <br>
+      <p>
+        درجتك هي: 
+        {% if score <= 3 %}
+          سيء.
+        {% elif score > 3 and score <= 5 %}
+          لا بأس.
+        {% elif score > 5 and score <= 7 %}
+          جيد.
+        {% elif score > 7 and score <= 9 %}
+          جيد جدا.
+        {% else %}
+          ممتاز.
+        {% endif %}
+        <br><br>
+      </p>
+      </div>
+		<a href="/info"><button style="width: 300px;">العودة الى صفحة المعلومات</button></a><br><br>
+		<a href="/"><button style="width: 300px;">العودة الى الصفحة الرئيسية</button></a>
+		</div>
+{% endblock %}

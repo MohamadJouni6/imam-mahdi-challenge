@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block title %}Administiration{% endblock %}
+
+{% block main %}
+	<div dir="ltr" class="center">
+		<h1 style="text-align: center;">Administiration</h1><br>
+		<div>
+			<form action="/admin" method="POST" id="from">
+				<h2  style="text-align: center;">Add an admin:</h2><br>
+				<input autocomplete="off" class="form-control mx-auto w-auto" id="username" name="username" required placeholder="Username" type="text">
+				<br><br>
+				<input id="email" class="form-control mx-auto w-auto" name="email" placeholder="Email" type="text" required>
+				<br><br>
+				<input id="password" class="form-control mx-auto w-auto" name="password" placeholder="Password" type="Password" required>
+				<br><br>
+				<button type="submit">Add the admin</button>
+			</form>
+		</div>
+    <br>
+		<div>
+			<form action="/admin" method="POST" id="from">
+				<h2  style="text-align: center;">Add a Question:</h2><br>
+				<input type="text" class="form-control mx-auto w-auto" required name="question" placeholder="Type the Question">
+				<br><br>
+				<label for="fans">Type Three Wrong Answers seperated by '-' symbol and end it with point</label><br><br>
+				<input type="text" class="form-control mx-auto w-auto" id="fans" name="fans" required placeholder="3 Wrong Answers"><br>
+				<br>
+				<label for="fans">Type The True Answer</label><br><br>
+				<input type="text" id="tan" name="tan" class="form-control mx-auto w-auto" required placeholder="The True Answer"><br><br>
+				<button type="submit">Add Question</button>
+			</form>
+		</div>
+    <br>
+		<div>
+			<form action="/admin" method="POST" id="from"><br>
+				<h2  style="text-align: center;">Add a Sepparated Information:</h2>
+				<br>
+				<textarea name="info" id="info" rows="4" cols="50" autocomplete="off" placeholder="Type An Information that you want to be added to info page in Arabic Language"></textarea>
+				<br><br>
+				<button type="submit">Submit</button>
+				<br><br>
+			</form>
+		</div>
+    <br>
+		<div>
+			<a href="/info"><button style="width: 200px; text-align: center;">Go To The Challenge</button></a>
+		</div>
+	</div>
+{% endblock %}

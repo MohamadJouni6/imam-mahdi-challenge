@@ -1,0 +1,5 @@
+Flask==2.0.2
+flask-session==0.4.0
+validate-email==1.3
+Werkzeug==2.0.2
+gunicorn
