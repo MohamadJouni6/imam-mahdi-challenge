@@ -215,6 +215,7 @@ def admin():
 @app.route("/test", methods=["POST", "GET"])
 @login_required
 def test():
+  # if the values of ids, index and scores arent intialized in session then initialize it
   connection = engine.connect()
   if 'values' not in session:
     session["values"] = []
@@ -222,7 +223,10 @@ def test():
     session['i'] = 0
   if 'score' not in session:
     session['score'] = 0
+
+  # Check if user is submitting or accesing page
   if request.method == "GET":
+    # if accesing page and values is empty then fill it with ids of questions from db
     if not session['values']:
       ques_count = connection.execute("SELECT COUNT(*) FROM questions").fetchone()[0]
       while len(session['values']) < 10:
@@ -232,30 +236,64 @@ def test():
 
     if session['i'] >= len(session['values']):  # Reset session['i'] if it exceeds the length
       session['i'] = 0
+    
+    # get from the db the question with ids stored in db
     ques_id = session['values'][session['i']]
     parm = {"ques_id":ques_id}
     ques = connection.execute("SELECT * FROM questions WHERE ques_id = :ques_id", parm).fetchone()
-    session['i'] += 1
+    
+    session['i'] += 1 # increment index by 1
+
+    # put answers in list to be passed to test template
     mylist = [ques["f1"], ques["t"], ques["f2"], ques["f3"]]
+    
+    # Randomize the order of answers in list
     random.shuffle(mylist)
+
+    # render page
     return render_template("test.html", ques=ques, mylist=mylist)
+  
   else:
+    # Get the answer submitted and id of question
     ques_id = request.form.get("id")
     ans = request.form.get("ans")
     parm = {"ques_id": ques_id}
+
+    # See what is the true answer for this specific question in db
     tr_ans = connection.execute("SELECT t FROM questions WHERE ques_id = :ques_id", parm).fetchone()[0]
+
+    # compare the answer submitted with the true answer
     if tr_ans == ans:
+      # if true then increment score by 1
       session['score'] += 1
+    
+    # if user was asked 10 questions
     if session['i'] == 10:
+      # then redirect to scores page
       return redirect("/scores")
+    
+    # else send to be asked another question
     return redirect("/test")
 
 @app.route("/scores")
+@login_required
 def scores():
+
+  if not session['score']:
+    flash("تم منع الوصول")
+    return redirect("/")
+  # set res = score
   res = session['score']
-  session['score'] = 0
+  
+  # set values, index and score to initial values
+  session['score'] = None
+  session['i'] = 0
+  session['values'] = []
+
+  # redirect to page in which score is shown
   return render_template("scores.html", score=res)
 
+# Errors handlers for 404 and 500 errors
 @app.errorhandler(404)
 def page_not_found(e):
   return render_template("404.html"), 404
@@ -264,5 +302,6 @@ def page_not_found(e):
 def server_error(e):
   return render_template("500.html"), 500
 
+# Run app
 if  __name__ == "__main__":
   app.run()
