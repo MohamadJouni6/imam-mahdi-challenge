@@ -1,4 +1,4 @@
-
+# import needed libraries
 import os
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
@@ -9,19 +9,24 @@ from functools import wraps
 from random import randint
 import random
 
+# initalize flask app
 app = Flask(__name__)
 
+# Define secret key and hide it
 app.secret_key = os.environ.get("c!o@l#t$a5r6")
 
+# Set database to use filesystem instead of signed cookies
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# Link Database coltar.db
 db = "sqlite:///coltar.db"
 
+# create an engine to apply on
 engine = create_engine(db)
 
-
+# dont let to acces some pages if the user isnt loged in
 def login_required(f):
   """
   Decorate routes to require login.
@@ -37,78 +42,121 @@ def login_required(f):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+  # Check if user is submitting or accesing page
   if request.method == "GET":
+    # if accesing page then render it
     return render_template("index.html")
+  
   else:
+    # get the user and email submitted
     name = request.form.get("username")
     email = request.form.get("email")
+    
+    # Confirm that they're not blank
     if not name or not email:
       flash("يجب توفير اسم المتسابق وبريده الابكتروني")
       return redirect("/")
+    
+    # Create connection to apply on it
     connection = engine.connect()
+
+    # See if the user logging is an admin by checking database
     parm = {"email": email, "type": "admin"}
     emails = connection.execute("SELECT COUNT(*) FROM users WHERE email = :email AND type = :type", parm).fetchone()[0]
     if emails != 0:
+      # if admin than redirect to 'log admin' page
       return render_template("log.html", email=email)
+    
+    # Confirm that this name isnt taken before
     parm = {"name": name}
     names = connection.execute("SELECT COUNT(*) FROM users WHERE name = :name", parm).fetchone()[0]
     if names != 0:
       flash("هذا الاسم مستخدم بالفعل")
       return redirect("/")
+    
+    # Confirm that the email provided is valid
     if not validate_email(email):
       flash("يرجى ادراج بريجد الكتروني سليم")
       return redirect("/")
+    
+    # Add user to database
     parm = {"name": name, "email": email, "type": "user"}
     connection.execute("INSERT INTO users (name, email, type) VALUES (:name, :email, :type)", parm)
+
+    # Get user id
     parm = {"name": name}
     id = connection.execute("SELECT id FROM users WHERE name = :name", parm).fetchone()
     session["user_id"] = id["id"]
+
+    # redirect to info page
     return redirect("/info")  
 
 @app.route("/info")
 @login_required
 def info():
+  # Get info stored in database
   connection = engine.connect()
   s_info = connection.execute("SELECT cont FROM info").fetchall()
+
+  # render info template and pass the info to it]
   return render_template("info.html", s_info=s_info)
 
 @app.route("/log", methods= ["POST", "GET"])
 def log():
+  # Check if user is submitting or accesing page
   if request.method == "GET":
+    # if accesing page then render it
     return render_template("log.html")
+  
   else:
+    # if submitting then get the form
     email = request.form.get("email")
     password = request.form.get("password")
+
+    # Confirm that form isnt blank
     if not email or not password:
       flash("يجب توفير بريد المتسابق الابكتروني وكلمة السر")
       return redirect("/log")
+    
+    # Confirm that the email is an admin email
     connection = engine.connect()
     parm = {"email": email, "type": 'admin'}
     check = connection.execute("SELECT COUNT(*) FROM users WHERE email = :email AND type = :type", parm).fetchone()[0]
     if check == 0:
       flash("هذا البريد الكتروني ليس بريد مسؤول")
       return redirect("/")
+    
+    # Confirm that password is correct for admin email
     parm = {"email": email}
     check1 = connection.execute("SELECT * FROM users WHERE email = :email", parm).fetchone()
     if check_password_hash(check1["password"], password):
+      # Then add admin id and redirect to administration
       session["user_id"] = check1["id"]
       return redirect("/admin")
+    
     else:
+      # Redirect to same page with flash message
       flash("كلمة المرو خاطئة")
       return redirect("/log")
 
 @app.route("/admin", methods= ["POST", "GET"])
 @login_required
 def admin():
+  # Confirm that the user is an admin
   connection = engine.connect()
   parm = {"id": session["user_id"]}
   check = connection.execute("SELECT * FROM users WHERE id = :id", parm).fetchone()
   if check["type"] != "admin":
     flash("هذا الحساب ليس حسابا مسؤولا")
     return redirect("/")
+
+  # Check if user is submitting or accesing page
   if request.method == "GET":
+    # if accesing page then render it
     return render_template("admin.html")
+  
   else:
+    # Get the form that are submited
     name = request.form.get("username")
     email = request.form.get("email")
     password = request.form.get("password")
@@ -116,19 +164,32 @@ def admin():
     question = request.form.get("question")
     fans = request.form.get("fans")
     tan = request.form.get("tan")
+    
+    # Check which form submitted among the 3 forms
     if name and email and password:
+      # If user was in db as type 'user' then delete it
       parm = {"email": email}
       connection.execute("DELETE FROM users WHERE email = :email", parm)
+      
+      # Add admin to db as admin
       parm = {"name": name, "email": email, "type": "admin", "password": generate_password_hash(password)}
       connection.execute("INSERT INTO users (name, email, type, password) VALUES (:name, :email, :type, :password)", parm)
       flash("Admin Was Succesfully Added")
+
+      # redirect to /admin
       return redirect("/admin")
+    
     elif info:
+      # Insert info added into db
       parm = {"cont": info}
       connection.execute("INSERT INTO info (cont) VALUES(:cont)", parm)
       flash("Information Was Succesfully Added")
+
+      # redirect to /admin
       return redirect("/admin")
+    
     elif question and fans and tan:
+      # Store False answers in one list
       mylist = []
       bas = ""
       for i in range(0, len(fans)):
@@ -137,11 +198,17 @@ def admin():
           bas = ""
         else:
           bas += fans[i]
+
+      # Add Question to db
       parm = {"question": question, "f1": mylist[0], "f2": mylist[1], "f3": mylist[2], "t": tan}
       connection.execute("INSERT INTO questions (question, f1, f2, f3, t) VALUES(:question, :f1, :f2, :f3, :t)", parm)
       flash("The Question Was Succesfully Added")
+      
+      # redirect to /admin
       return redirect("/admin")
+    
     else:
+      # if all forms are blank then redirect to /admin
       flash("يرجى ادراج المعلومات المطلوبة")
       return redirect("/admin")
 
@@ -185,7 +252,9 @@ def test():
 
 @app.route("/scores")
 def scores():
-  return render_template("scores.html", score=session['score'])
+  res = session['score']
+  session['score'] = 0
+  return render_template("scores.html", score=res)
 
 @app.errorhandler(404)
 def page_not_found(e):
