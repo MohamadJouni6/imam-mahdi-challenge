@@ -237,6 +237,10 @@ def test():
     if session['i'] >= len(session['values']):  # Reset session['i'] if it exceeds the length
       session['i'] = 0
     
+    # Initialize session['score'] if it doesn't exist yet
+    if 'score' not in session:
+      session['score'] = 0
+
     # get from the db the question with ids stored in db
     ques_id = session['values'][session['i']]
     parm = {"ques_id":ques_id}
@@ -257,9 +261,9 @@ def test():
     # Get the answer submitted and id of question
     ques_id = request.form.get("id")
     ans = request.form.get("ans")
-    parm = {"ques_id": ques_id}
 
     # See what is the true answer for this specific question in db
+    parm = {"ques_id": ques_id}
     tr_ans = connection.execute("SELECT t FROM questions WHERE ques_id = :ques_id", parm).fetchone()[0]
 
     # compare the answer submitted with the true answer
@@ -278,18 +282,15 @@ def test():
 @app.route("/scores")
 @login_required
 def scores():
-
-  if not session['score']:
-    flash("تم منع الوصول")
-    return redirect("/")
   # set res = score
-  res = session['score']
-  
+  res = session.get('score')
   # set values, index and score to initial values
-  session['score'] = None
+  session['score'] = 0
   session['i'] = 0
   session['values'] = []
 
+  if res is None:
+    res = 0
   # redirect to page in which score is shown
   return render_template("scores.html", score=res)
 
