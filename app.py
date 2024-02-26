@@ -162,7 +162,9 @@ def admin():
     password = request.form.get("password")
     info = request.form.get("info")
     question = request.form.get("question")
-    fans = request.form.get("fans")
+    f1 = request.form.get("f1")
+    f2 = request.form.get("f2")
+    f3 = request.form.get("f3")
     tan = request.form.get("tan")
     
     # Check which form submitted among the 3 forms
@@ -188,16 +190,9 @@ def admin():
       # redirect to /admin
       return redirect("/admin")
     
-    elif question and fans and tan:
+    elif question and f1 and f2 and f3 and tan:
       # Store False answers in one list
-      mylist = []
-      bas = ""
-      for i in range(0, len(fans)):
-        if fans[i] == '-' or fans[i] == '.':
-          mylist.append(bas)
-          bas = ""
-        else:
-          bas += fans[i]
+      mylist = [f1, f2, f3]
 
       # Add Question to db
       parm = {"question": question, "f1": mylist[0], "f2": mylist[1], "f3": mylist[2], "t": tan}
