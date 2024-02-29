@@ -6,42 +6,53 @@ body {
     background-image: url(/static/img/backg2.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
 }
+
+/* Adjust font size and margins */
 .text {
     text-align: center;
-    font-size: 25px;
-    margin-top: 20px;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+
 .center {
     text-align: center;
 }
+
+/* Adjust form width and margins */
 .fr {
-    width: 50%; /* Set form width */
+    width: 80%; /* Set form width */
     margin: 0 auto; /* Center the form horizontally */
-    padding: 20px; /* Add padding around the form */
+    padding: 10px; /* Add padding around the form */
     border: 2px solid #ccc; /* Add a border */
     border-radius: 5px; /* Add rounded corners */
     background-color: #f9f9f9;
 }
 
-.fr p{
-    font-size: 18px; /* Increase font size */
+.fr p {
+    font-size: 16px; /* Decrease font size */
     font-weight: bold; /* Make text bold */
-    margin-bottom: 20px; /* Add bottom margin */
+    margin-bottom: 10px; /* Add bottom margin */
 }
 
+/* Adjust radio button margins */
 input[type="radio"] {
-    margin-right: 10px; /* Add margin to the right of radio buttons */
+    margin-right: 5px; /* Add margin to the right of radio buttons */
 }
 
+/* Adjust input container margins and padding */
 .input-container {
-    margin-bottom: 10px; /* Add bottom margin between input containers */
-    padding: 10px; /* Add padding */
+    margin-bottom: 5px; /* Add bottom margin between input containers */
+    padding: 5px; /* Add padding */
     border: 1px solid #ccc; /* Add a border */
     border-radius: 5px; /* Add rounded corners */
     background-color: #fff; /* Add a white background color */
 }
 
+/* Adjust background colors for correct and incorrect answers */
 .tsel {
     background-color: rgb(130, 228, 91);
 }
@@ -50,66 +61,29 @@ input[type="radio"] {
     background-color: rgb(238, 70, 70);
 }
 
-#lb {
-    font-size: 16px; 
-}
-
-#fr button[type="submit"] {
-    padding: 10px 20px; /* Add padding */
-    background-color: #007bff; /* Set background color */
-    color: #fff; /* Set text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Add rounded corners */
-    cursor: pointer; /* Change cursor to pointer on hover */
-}
-
-#fr button[type="submit"]:hover {
-    background-color: #0056b3; /* Darker background color on hover */
-}
-
-.parg {
-    font-size: 25px;
-}
+/* Adjust button styles */
 button {
-    /* Add your button styles here */
-    padding: 10px 20px; /* Example padding */
+    padding: 8px 16px; /* Example padding */
     background-color: darkgreen; /* Example background color */
     color: #fff; /* Example text color */
     border: none; /* Example border */
     border-radius: 5px; /* Example border radius */
     cursor: pointer;
-    position:relative;
-    width: 110px;
+    width: 100%; /* Make buttons full width */
 }
 
+/* Adjust form container for smaller screens */
 form {
-    border: 2px solid #ccc; /* Border around the form */
-    border-radius: 5px; /* Rounded corners for the form */
-    padding: 20px; /* Padding inside the form */
-    background-color: rgba(249, 249, 249, 0.9); /* Background color for the form */
-    width: 300px; /* Set a fixed width for the form */
-    margin: 0 auto; /* Center the form horizontally */
+    padding: 10px; /* Adjust padding */
+    width: 90%; /* Adjust width */
 }
 
-form h2 {
-    margin-top: 0; /* Remove top margin for the heading */
-}
-
-#from {
-    border: 2px solid #ccc; /* Border around the form */
-    border-radius: 5px; /* Rounded corners for the form */
-    padding: 20px; /* Padding inside the form */
-    background-color: rgba(249, 249, 249, 0.9); /* Background color for the form */
-    width: 600px; /* Set a fixed width for the form */
-    margin: 0 auto; /* Center the form horizontally */
-}
-
+/* Adjust timer box for smaller screens */
 #timer-box {
-    border: 2px solid #333;
-    padding: 20px;
-    width: 200px;
+    padding: 10px;
+    width: 90%;
     margin: 0 auto;
     text-align: center;
     font-family: monospace;
-    font-size: 24px;
+    font-size: 20px;
 }

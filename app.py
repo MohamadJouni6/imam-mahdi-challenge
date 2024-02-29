@@ -210,7 +210,7 @@ def admin():
 @app.route("/test", methods=["POST", "GET"])
 @login_required
 def test():
-  # if the values of ids, index, scores and fans arent intialized in session then initialize it
+  # if the values of ids, index, scores, list of lists and ans arent intialized in session then initialize it
   connection = engine.connect()
   if 'values' not in session:
     session["values"] = []
@@ -252,6 +252,8 @@ def test():
     
     # Randomize the order of answers in list
     random.shuffle(mylist)
+
+    # add the list to session
     session['mylist'].append(mylist)
 
     # render page
@@ -292,15 +294,17 @@ def scores():
   lis =[[]]
   lis = session['mylist']
 
-  # set values, index and score to initial values
+  # set session initial values
   session['score'] = 0
   session['i'] = 0
   session['values'] = []
   session['mylist'] = [[]]
   session['ans'] = [{}]
 
+  # redirect to homepage if there is no score
   if res is None:
     return redirect("/")
+
   # redirect to page in which score is shown
   return render_template("scores.html", score=res, ans=ans, mylist=lis)
 
