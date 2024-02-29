@@ -15,7 +15,7 @@ body {
 .center {
     text-align: center;
 }
-#fr {
+.fr {
     width: 50%; /* Set form width */
     margin: 0 auto; /* Center the form horizontally */
     padding: 20px; /* Add padding around the form */
@@ -24,7 +24,7 @@ body {
     background-color: #f9f9f9;
 }
 
-#fr p{
+.fr p{
     font-size: 18px; /* Increase font size */
     font-weight: bold; /* Make text bold */
     margin-bottom: 20px; /* Add bottom margin */
@@ -40,6 +40,14 @@ input[type="radio"] {
     border: 1px solid #ccc; /* Add a border */
     border-radius: 5px; /* Add rounded corners */
     background-color: #fff; /* Add a white background color */
+}
+
+.tsel {
+    background-color: rgb(130, 228, 91);
+}
+
+.fsel {
+    background-color: rgb(238, 70, 70);
 }
 
 #lb {

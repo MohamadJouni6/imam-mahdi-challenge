@@ -11,21 +11,63 @@
       <br>
       <p>
         درجتك هي: 
-        {% if score <= 3 %}
-          سيء.
-        {% elif score > 3 and score <= 5 %}
-          لا بأس.
-        {% elif score > 5 and score <= 7 %}
-          جيد.
-        {% elif score > 7 and score <= 9 %}
-          جيد جدا.
-        {% else %}
+        {% if score > 9 %}
           ممتاز.
+        {% elif score > 7 %}
+          جيد جدا.
+        {% elif score > 5 %}
+          جيد.
+        {% elif score > 2 %}
+          لا بأس.
+        {% else %}
+          سيء.
         {% endif %}
         <br><br>
       </p>
-      </div>
+    </div>
+  </div>
+  {% for dict in ans %}
+    {% if not loop.first %}
+    {% if dict.ans == dict.t %}
+    <form class="fr" style="background-color: rgb(130, 228, 91);">
+    <p class="center">صحيح</p>
+    {% else %}
+    <form class="fr" style="background-color: rgb(238, 70, 70);">
+    <p class="center">خطأ</p>
+    {% endif %}
+      <p>{{ dict.ques }}</p>
+      {% for el in mylist[loop.index0] %}
+        <div class="input-container">
+          {% if el == dict.ans %}
+            {% if el == dict.t %}
+              <div class="tsel">
+                <input type="radio" value="{{ el }}" name="ans" id="tel" checked disabled>
+                <label for="tel" id="lb">{{ el }}</label><br><br>
+              </div>
+            {% else %}
+              <div class="fsel">
+                <input type="radio" value="{{ el }}" name="ans" id="fsl" checked disabled>
+                <label for="fsl" id="lb">{{ el }}</label><br><br>
+              </div>
+            {% endif %}
+          {% else %}
+            {% if el == dict.t %}
+              <div class="tsel">
+                <input type="radio" value="{{ el }}" name="ans" id="tsl" disabled>
+                <label for="tsl" id="lb">{{ el }}</label><br><br>
+              </div>
+            {% else %}
+              <input type="radio" value="{{ el }}" name="ans" id="ans" disabled>
+              <label for="ans" id="lb">{{ el }}</label><br><br>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </form><br>
+  {% endif %}
+  {% endfor %}
+  <div class="center">
 		<a href="/info"><button style="width: 300px;">العودة الى صفحة المعلومات</button></a><br><br>
 		<a href="/"><button style="width: 300px;">العودة الى الصفحة الرئيسية</button></a>
-		</div>
+  </div>
 {% endblock %}

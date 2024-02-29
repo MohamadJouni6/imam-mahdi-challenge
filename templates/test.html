@@ -4,7 +4,7 @@
 
 {% block main %}
 	<h1 class="text">المسابقة</h1>
-	<form action="/test" method="POST" id="fr">
+	<form action="/test" method="POST" class="fr">
 		<p>{{ ques.question }}</p>
 		<input type="hidden" value="{{ ques.ques_id }}" name="id">
 		{% for el in mylist %}
