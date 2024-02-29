@@ -300,7 +300,7 @@ def scores():
   session['ans'] = [{}]
 
   if res is None:
-    res = 0
+    return redirect("/")
   # redirect to page in which score is shown
   return render_template("scores.html", score=res, ans=ans, mylist=lis)
 
