@@ -54,19 +54,6 @@ input[type="radio"] {
     font-size: 16px; 
 }
 
-#fr button[type="submit"] {
-    padding: 10px 20px; /* Add padding */
-    background-color: #007bff; /* Set background color */
-    color: #fff; /* Set text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Add rounded corners */
-    cursor: pointer; /* Change cursor to pointer on hover */
-}
-
-#fr button[type="submit"]:hover {
-    background-color: #0056b3; /* Darker background color on hover */
-}
-
 .parg {
     font-size: 25px;
 }
