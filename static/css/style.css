@@ -39,7 +39,7 @@ input[type="radio"] {
     padding: 10px; /* Add padding */
     border: 1px solid #ccc; /* Add a border */
     border-radius: 5px; /* Add rounded corners */
-    background-color: #fff; /* Add a white background color */
+    background-color: rgb(231, 231, 60); /* Add a white background color */
 }
 
 .tsel {
@@ -73,7 +73,7 @@ form {
     border: 2px solid #ccc; /* Border around the form */
     border-radius: 5px; /* Rounded corners for the form */
     padding: 20px; /* Padding inside the form */
-    background-color: rgba(249, 249, 249, 0.9); /* Background color for the form */
+    background-color: rgba(249, 249, 249, 0.453); /* Background color for the form */
     width: 300px; /* Set a fixed width for the form */
     margin: 0 auto; /* Center the form horizontally */
 }
@@ -91,6 +91,15 @@ form h2 {
     margin: 0 auto; /* Center the form horizontally */
 }
 
+.box {
+    border: 2px solid #ccc; /* Border around the form */
+    border-radius: 5px; /* Rounded corners for the form */
+    padding: 20px; /* Padding inside the form */
+    background-color: rgba(249, 249, 249, 0.453); /* Background color for the form */
+    width: 1200px; /* Set a fixed width for the form */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
 #timer-box {
     border: 2px solid #333;
     padding: 20px;
@@ -99,4 +108,36 @@ form h2 {
     text-align: center;
     font-family: monospace;
     font-size: 24px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.radio-toolbar {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(20, 156, 20, 0.918);
+}
+
+.radio-toolbar input[type="radio"] + label {
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.radio-toolbar input[type="radio"]:checked + label {
+    background-color: rgba(20, 156, 20, 0.918);;
+    border-color: rgba(20, 156, 20, 0.918);;
+    color: #fff
+}
+
+.radio-toolbar input[type="radio"]:checked + label .input-container {
+    background-color: darkgreen;
 }

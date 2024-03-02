@@ -4,13 +4,13 @@
 
 {% block main %}
 	<h1 class="text">المسابقة</h1>
-	<form action="/test" method="POST" class="fr">
-		<p>{{ ques.question }}</p>
+	<form action="/test" method="POST" class="radio-toolbar" style="width: 50%;">
+		<p style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">{{ ques.question }}</p>
 		<input type="hidden" value="{{ ques.ques_id }}" name="id">
 		{% for el in mylist %}
-		<div class="input-container">
-			<input type="radio" value="{{ el }}" name="ans" id="ans" required>
-			<label for="ans" id="lb">{{ el }}</label><br><br>
+	  <div class="input-container">
+			<input type="radio" value="{{ el }}" name="ans" id="ans{{ loop.index }}" required>
+			<label for="ans{{ loop.index }}" id="lb">{{ el }}</label><br><br>
 		</div>
 		{% endfor %}
 		<button type="submit">أرسل</button>

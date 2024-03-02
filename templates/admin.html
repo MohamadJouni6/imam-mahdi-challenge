@@ -21,17 +21,19 @@
 		<div>
 			<form action="/admin" method="POST" id="from">
 				<h2  style="text-align: center;">Add a Question:</h2><br>
-				<input type="text" class="form-control mx-auto w-auto" required name="question" placeholder="Type the Question">
-				<br><br>
-				<label for="f1">False Answers</label><br><br>
-				<input type="text" class="form-control mx-auto w-auto" id="f1" name="f1" required placeholder="first Wrong Answers"><br>
-				<br>
-				<input type="text" class="form-control mx-auto w-auto" id="f2" name="f2" required placeholder="second Wrong Answers"><br>
-				<br>
-				<input type="text" class="form-control mx-auto w-auto" id="f3" name="f3" required placeholder="Third Wrong Answers"><br>
-				<br>
-				<label for="tan">Type The True Answer</label><br><br>
-				<input type="text" id="tan" name="tan" class="form-control mx-auto w-auto" required placeholder="The True Answer"><br><br>
+				<div dir="rtl">
+					<input type="text" class="form-control mx-auto " style="width: 500px;" required name="question" placeholder="Type the Question">
+					<br><br>
+					<label for="f1">False Answers</label><br><br>
+					<input type="text" class="form-control mx-auto " id="f1" name="f1" style="width: 500px;" required placeholder="first Wrong Answers"><br>
+					<br>
+					<input type="text" class="form-control mx-auto " id="f2" name="f2" style="width: 500px;" required placeholder="second Wrong Answers"><br>
+					<br>
+					<input type="text" class="form-control mx-auto " id="f3" name="f3" style="width: 500px;" required placeholder="Third Wrong Answers"><br>
+					<br>
+					<label for="tan">Type The True Answer</label><br><br>
+					<input type="text" id="tan" name="tan" class="form-control mx-auto " required style="width: 500px;" placeholder="The True Answer"><br><br>
+					</div>
 				<button type="submit">Add Question</button>
 			</form>
 		</div>
@@ -40,7 +42,7 @@
 			<form action="/admin" method="POST" id="from"><br>
 				<h2  style="text-align: center;">Add a Sepparated Information:</h2>
 				<br>
-				<textarea name="info" id="info" rows="4" cols="50" autocomplete="off" placeholder="Type An Information that you want to be added to info page in Arabic Language"></textarea>
+				<textarea dir="rtl" class="form-control mx-auto w-auto" name="info" id="info" rows="4" cols="50" autocomplete="off" placeholder="Type An Information that you want to be added to info page in Arabic Language"></textarea>
 				<br><br>
 				<button type="submit">Submit</button>
 				<br><br>
@@ -48,7 +50,7 @@
 		</div>
     <br>
 		<div>
-			<a href="/info"><button style="width: 200px; text-align: center;">Go To The Challenge</button></a>
+			<a href="/info"><button style="width: 200px; text-align: center; margin-bottom: 32px;">Go To The Challenge</button></a>
 		</div>
 	</div>
 {% endblock %}

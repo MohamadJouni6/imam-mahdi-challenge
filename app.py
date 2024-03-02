@@ -214,17 +214,18 @@ def test():
   connection = engine.connect()
   if 'values' not in session:
     session["values"] = []
-  if 'i' not in session:
     session['i'] = 0
-  if 'score' not in session:
     session['score'] = 0
-  if 'ans' not in session:
     session['ans'] = [{}]
-  if 'mylist' not in session:
     session['mylist'] = [[]]
+    session['dict'] = {}
 
   # Check if user is submitting or accesing page
   if request.method == "GET":
+    if 'sub' in session:
+      if session['sub'] == False:
+        return render_template("test.html", ques=session['dict'], mylist=session['mylist'][session['i']])
+    session['sub'] = False
     # if accesing page and values is empty then fill it with ids of questions from db
     if not session['values']:
       ques_count = connection.execute("SELECT COUNT(*) FROM questions").fetchone()[0]
@@ -254,6 +255,7 @@ def test():
     random.shuffle(mylist)
 
     # add the list to session
+    session['dict'] = {"question": ques["question"], 't': ques["t"], 'ques_id': ques_id}
     session['mylist'].append(mylist)
 
     # render page
@@ -263,6 +265,11 @@ def test():
     # Get the answer submitted and id of question
     ques_id = request.form.get("id")
     ans = request.form.get("ans")
+
+    if ans is None:
+      flash("يرجى اختيار اجابة")
+      return render_template("test.html", ques=session['dict'], mylist=session['mylist'][session['i']])
+    session['sub'] = True
 
     # See what is the true answer for this specific question in db
     parm = {"ques_id": ques_id}
@@ -274,8 +281,8 @@ def test():
       session['score'] += 1
 
     # Add to question list
-    dict = {"ques": tr_ans["question"], 'ans': ans, 't': tr_ans["t"]}
-    session['ans'].append(dict)
+    session['dict']['ans'] = ans
+    session['ans'].append(session['dict'])
 
     # if user was asked 10 questions
     if session['i'] == 10:
@@ -288,6 +295,10 @@ def test():
 @app.route("/scores")
 @login_required
 def scores():
+  # redirect to homepage if there is no score
+  if not session['score'] or not session['mylist']:
+    return redirect("/")
+
   # set res and ans
   res = session.get('score')
   ans = session.get('ans')
@@ -295,15 +306,9 @@ def scores():
   lis = session['mylist']
 
   # set session initial values
-  session['score'] = 0
-  session['i'] = 0
-  session['values'] = []
-  session['mylist'] = [[]]
-  session['ans'] = [{}]
-
-  # redirect to homepage if there is no score
-  if res is None:
-    return redirect("/")
+  id = session['user_id']
+  session.clear()
+  session['user_id'] = id
 
   # redirect to page in which score is shown
   return render_template("scores.html", score=res, ans=ans, mylist=lis)
@@ -319,4 +324,4 @@ def server_error(e):
 
 # Run app
 if  __name__ == "__main__":
-  app.run()
+  app.run(debug=True)
