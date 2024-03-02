@@ -37,8 +37,8 @@ input[type="radio"] {
 .input-container {
     margin-bottom: 10px; /* Add bottom margin between input containers */
     padding: 10px; /* Add padding */
-    border: 1px solid #ccc; /* Add a border */
-    border-radius: 5px; /* Add rounded corners */
+    border: 5px solid #ccc; /* Add a border */
+    border-radius: 110px; /* Add rounded corners */
     background-color: #fff; /* Add a white background color */
 }
 
@@ -109,3 +109,4 @@ form h2 {
     font-family: monospace;
     font-size: 24px;
 }
+
