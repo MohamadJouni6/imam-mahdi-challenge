@@ -29,10 +29,10 @@
   {% for dict in ans %}
     {% if not loop.first %}
     {% if dict.ans == dict.t %}
-    <form class="radio-toolbar" style="background-color: rgb(130, 228, 91); width: 50%;">
+    <form class="fr" style="background-color: rgb(130, 228, 91);">
     <p class="center">صحيح</p>
     {% else %}
-    <form class="radio-toolbar" style="background-color: rgb(238, 70, 70); width: 50%;">
+    <form class="fr" style="background-color: rgb(238, 70, 70);">
     <p class="center">خطأ</p>
     {% endif %}
       <p>{{ dict.question }}</p>
