@@ -56,6 +56,7 @@ input[type="radio"] {
 .parg {
     font-size: 25px;
 }
+
 button {
     /* Add your button styles here */
     padding: 10px 20px; /* Example padding */
@@ -82,12 +83,7 @@ form h2 {
 }
 
 #from {
-    border: 2px solid #ccc; /* Border around the form */
-    border-radius: 5px; /* Rounded corners for the form */
-    padding: 20px; /* Padding inside the form */
-    background-color: rgba(249, 249, 249, 0.453); /* Background color for the form */
     width: 600px; /* Set a fixed width for the form */
-    margin: 0 auto; /* Center the form horizontally */
 }
 
 .box {
