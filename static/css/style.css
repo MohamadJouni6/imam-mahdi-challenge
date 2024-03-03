@@ -1,8 +1,7 @@
-/* Add your custom styles here */
-
+@import url(https://fonts.googleapis.com/earlyaccess/amiri.css);
 /* Set background color */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Amiri', serif;
     background-image: url(/static/img/backg2.jpg);
     background-size: cover;
     background-repeat: no-repeat;
