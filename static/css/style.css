@@ -91,7 +91,7 @@ form h2 {
     border-radius: 5px; /* Rounded corners for the form */
     padding: 20px; /* Padding inside the form */
     background-color: rgba(249, 249, 249, 0.453); /* Background color for the form */
-    width: 1200px; /* Set a fixed width for the form */
+    width: 89%; /* Set a fixed width for the form */
     margin: 0 auto; /* Center the form horizontally */
 }
 
