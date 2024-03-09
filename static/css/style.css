@@ -3,7 +3,7 @@
 body {
     font-family: 'Amiri', serif;
     background-image: url(/static/img/backg2.jpg);
-    background-size: contain;
+    background-size: auto;
     background-repeat: no-repeat;
 }
 .text {
