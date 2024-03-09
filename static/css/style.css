@@ -3,7 +3,8 @@
 body {
     font-family: 'Amiri', serif;
     background-image: url(/static/img/backg2.jpg);
-    background-repeat: no-repeat;
+    background-size: cover;
+    background-repeat: repeat-y;
 }
 .text {
     text-align: center;
