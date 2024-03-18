@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Example JavaScript to toggle visibility
+    document.getElementById("backgroundImage").classList.add("show-background-image");
+
     var scrollButton = document.getElementById('scroll');
     if (scrollButton){
         scrollButton.addEventListener('click', function() {

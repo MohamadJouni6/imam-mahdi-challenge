@@ -2,10 +2,26 @@
 /* Set background color */
 body {
     font-family: 'Amiri', serif;
-    background-image: url(/static/img/backg2.jpg);
-    background-size: cover;
-    background-repeat: repeat-y;
+    margin: 0;
 }
+
+.background-image {
+    border: none;
+    height: 100%;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0; /* Add this to make sure the image starts from the left edge */
+    z-index: -1; /* Set a lower z-index to ensure it's behind other content */
+    visibility: hidden;
+    width: 100%;
+}
+
+.show-background-image {
+    visibility: visible;
+}
+
+
 .text {
     text-align: center;
     font-size: 25px;
