@@ -16,7 +16,7 @@ app = Flask(__name__)
 nlp = spacy.load("xx_ent_wiki_sm")
 
 # Define secret key and hide it
-app.secret_key = os.environ.get("c!o@l#t$a5r6")
+app.secret_key = os.environ.get("SECRET_KEY")
 
 # Set database to use filesystem instead of signed cookies
 app.config["SESSION_PERMANENT"] = False
