@@ -98,8 +98,17 @@ form h2 {
     margin-top: 0; /* Remove top margin for the heading */
 }
 
-#from {
+.from {
     width: 600px; /* Set a fixed width for the form */
+    border-top: transparent;
+    border-radius: 0px;
+}
+
+#bon {
+    text-align: center;
+    width: 600px;
+    border-bottom: transparent;
+    border-radius: 0px;
 }
 
 .box {

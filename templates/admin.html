@@ -6,7 +6,7 @@
 	<div dir="ltr" class="center">
 		<h1 style="text-align: center;">Administiration</h1><br>
 		<div>
-			<form action="/admin" method="POST" id="from">
+			<form action="/admin" method="POST" class="from">
 				<h2  style="text-align: center;">Add an admin:</h2><br>
 				<input autocomplete="off" class="form-control mx-auto w-auto" id="username" name="username" required placeholder="Username" type="text">
 				<br><br>
@@ -16,30 +16,80 @@
 				<br><br>
 				<button type="submit">Add the admin</button>
 			</form>
+		</div><br>
+    <br>
+		<div>
+      <h2  style="text-align: center;">Add a Question:</h2><br>
+      <div dir="rtl">
+        <div class="box" id="bon">
+          <label for="qtype" style="font-size: 25px;">Select The Question's Type </label><br><br>
+          <select id="qtype" onchange="type()" class="form-select" aria-label="Default select example">
+            <option style="text-align: center;" selected disabled value="non">--Choose a Question's Type--</option>
+            <option style="text-align: center;" value="mc">Multiple Choice</option>
+            <option style="text-align: center;" value="oc">One Choice</option>
+            <option style="text-align: center;" value="text">Text Question</option>
+          </select><br>
+        </div>
+        <div id="quesoc" style="display: none;">
+          <form action="/admin" method="POST" class="from">
+            <input type="hidden" value="oc" name="type">
+            <h3>One Choice Question</h3><br><br>
+            <label for="question">Type Question</label>
+            <input type="text" class="form-control mx-auto" style="width: 500px;" required id="question" name="question" placeholder="Type the Question">
+            <br>
+            <label for="f1">False Answers</label><br><br>
+            <input type="text" class="form-control mx-auto " id="f1" name="f1" style="width: 500px;" required placeholder="first Wrong Answers"><br>
+            <br>
+            <input type="text" class="form-control mx-auto " id="f2" name="f2" style="width: 500px;" required placeholder="second Wrong Answers"><br>
+            <br>
+            <input type="text" class="form-control mx-auto " id="f3" name="f3" style="width: 500px;" required placeholder="Third Wrong Answers"><br>
+            <br>
+            <label for="tan">Type The True Answer</label><br><br>
+            <input type="text" id="tan" name="tan" class="form-control mx-auto " required style="width: 500px;" placeholder="The True Answer"><br><br>
+            <br>
+            <button type="submit">Add Question</button><br>
+          </form>
+        </div>
+        <div id="quesmc" style="display: none;">
+          <form action="/admin" method="POST" class="from">
+            <input type="hidden" value="mc" name="type">
+            <h3>Multiple Choice Question</h3>
+            <br><br>
+            <label for="q1">Type the Question</label>
+            <input type="text" class="form-control mx-auto" style="width: 500px;" required id="q1" name="question" placeholder="Type the Question"><br>
+            <label for="mf1">False Answers</label><br><br>
+            <input type="text" class="form-control mx-auto" id="mf1" name="mf1" style="width: 500px;" required placeholder="First False ANswer"><br>
+            <br>
+            <input type="text" class="form-control mx-auto" id="mf2" name="mf2" style="width: 500px;" required placeholder="Second False Answer"><br>
+            <br>
+            <input type="text" class="form-control mx-auto" id="mf3" name="mf3" style="width: 500px;" required placeholder="Third False Answer"><br>
+            <br>
+            <label for="mt1">True Answers</label><br><br>
+            <input type="text" class="form-control mx-auto" id="mt1" name="mt1" style="width: 500px;" required placeholder="First True Answer"><br>
+            <br>
+            <input type="text" class="form-control mx-auto" id="mt2" name="mt2" style="width: 500px;" required placeholder="Second True Answer"><br>
+            <br>
+            <button type="submit">Add Question</button><br>
+          </form>
+        </div>
+        <div id="questext" style="display: none;">
+          <form action="/admin" method="POST" class="from">
+            <input type="hidden" value="tc" name="type">
+            <h3>Text Question</h3>
+            <br><br>
+            <label for="q2">Type the Question</label>
+            <input type="text" class="form-control mx-auto" style="width: 500px;" required name="question" placeholder="Type the Question"><br>
+            <label for="ans">Answer</label>
+            <input type="text" class="form-control mx-auto" id="ans" name="ans" style="width: 500px;" required placeholder="True Answer"><br>
+            <br>
+            <button type="submit">Add Question</button><br>
+          </form>
+        </div>
+      </div>
 		</div>
     <br>
 		<div>
-			<form action="/admin" method="POST" id="from">
-				<h2  style="text-align: center;">Add a Question:</h2><br>
-				<div dir="rtl">
-					<input type="text" class="form-control mx-auto " style="width: 500px;" required name="question" placeholder="Type the Question">
-					<br><br>
-					<label for="f1">False Answers</label><br><br>
-					<input type="text" class="form-control mx-auto " id="f1" name="f1" style="width: 500px;" required placeholder="first Wrong Answers"><br>
-					<br>
-					<input type="text" class="form-control mx-auto " id="f2" name="f2" style="width: 500px;" required placeholder="second Wrong Answers"><br>
-					<br>
-					<input type="text" class="form-control mx-auto " id="f3" name="f3" style="width: 500px;" required placeholder="Third Wrong Answers"><br>
-					<br>
-					<label for="tan">Type The True Answer</label><br><br>
-					<input type="text" id="tan" name="tan" class="form-control mx-auto " required style="width: 500px;" placeholder="The True Answer"><br><br>
-					</div>
-				<button type="submit">Add Question</button>
-			</form>
-		</div>
-    <br>
-		<div>
-			<form action="/admin" method="POST" id="from"><br>
+			<form action="/admin" method="POST" class="from"><br>
 				<h2  style="text-align: center;">Add a Sepparated Information:</h2>
 				<br>
 				<textarea dir="rtl" class="form-control mx-auto w-auto" name="info" id="info" rows="4" cols="50" autocomplete="off" placeholder="Type An Information that you want to be added to info page in Arabic Language"></textarea>

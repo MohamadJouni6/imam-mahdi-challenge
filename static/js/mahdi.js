@@ -12,6 +12,31 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    var typeselect = document.getElementById('qtype');
+    if (typeselect){
+        type();
+        typeselect.addEventListener("change", type)
+    }
+        function type(){
+            var selectedvalue = typeselect.value;
+        var op1 = document.getElementById('quesoc');
+        var op2 = document.getElementById('quesmc');
+        var op3 = document.getElementById('questext');
+        if (selectedvalue === "oc"){
+            op1.style.display = "block";
+            op2.style.display = "none";
+            op3.style.display = "none";
+        } else if (selectedvalue === "mc"){
+            op1.style.display = "none";
+            op2.style.display = "block";
+            op3.style.display = "none";
+        } else if (selectedvalue === "text"){
+            op1.style.display = "none";
+            op2.style.display = "none";
+            op3.style.display = "block";
+        }
+    }
+
     var totalSeconds = 600;
     var timerElement = document.getElementById('timer');
     if (timerElement) {

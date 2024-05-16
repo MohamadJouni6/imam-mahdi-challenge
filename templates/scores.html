@@ -7,17 +7,17 @@
 		<h1>مبارك لك</h1>
 		<br>
     <div style="font-size: 60px;">
-      <p>لقد حققت نتيجة {{ score }} من أصل 10 نقاط</p>
+      <p>لقد حققت نتيجة {{ score }} من أصل 14 نقاط</p>
       <br>
       <p>
         درجتك هي: 
-        {% if score > 9 %}
+        {% if score > 13 %}
           ممتاز.
-        {% elif score > 7 %}
+        {% elif score > 10 %}
           جيد جدا.
-        {% elif score > 5 %}
+        {% elif score > 7 %}
           جيد.
-        {% elif score > 2 %}
+        {% elif score > 4 %}
           لا بأس.
         {% else %}
           سيء.
@@ -28,46 +28,102 @@
   </div>
   {% for dict in ans %}
     {% if not loop.first %}
-    {% if dict.ans == dict.t %}
-    <form class="fr" style="background-color: rgb(130, 228, 91);">
-    <p class="center">صحيح</p>
-    {% else %}
-    <form class="fr" style="background-color: rgb(238, 70, 70);">
-    <p class="center">خطأ</p>
-    {% endif %}
-      <p>{{ dict.question }}</p>
-      {% for el in mylist[loop.index0] %}
+      {% if dict.type == 'oc' %}
+        {% if dict.ans == dict.t %}
+          <form class="fr" style="background-color: rgb(130, 228, 91);">
+          <p class="center">صحيح</p>
+        {% else %}
+          <form class="fr" style="background-color: rgb(238, 70, 70);">
+          <p class="center">خطأ</p>
+        {% endif %}
+        <p>{{ dict.question }}</p>
+        {% for el in mylist[loop.index0] %}
           {% if el == dict.ans %}
             {% if el == dict.t %}
-            <div class="input-container" style="background-color: rgb(130, 228, 91);">
-              <div class="tsel">
-                <input type="radio" value="{{ el }}" name="ans" id="tel" checked disabled>
-                <label for="tel" id="lb">{{ el }}</label><br><br>
+              <div class="input-container" style="background-color: rgb(130, 228, 91);">
+                <div class="tsel">
+                  <input type="radio" value="{{ el }}" name="ans" id="tel" checked disabled>
+                  <label for="tel" id="lb">{{ el }}</label><br><br>
+                </div>
               </div>
             {% else %}
-            <div class="input-container" style="background-color: rgb(238, 70, 70);">
-              <div class="fsel">
-                <input type="radio" value="{{ el }}" name="ans" id="fsl" style="background-color: rgb(238, 70, 70);" checked disabled>
-                <label for="fsl" id="lb">{{ el }}</label><br><br>
+              <div class="input-container" style="background-color: rgb(238, 70, 70);">
+                <div class="fsel">
+                  <input type="radio" value="{{ el }}" name="ans" id="fsl" style="background-color: rgb(238, 70, 70);" checked disabled>
+                  <label for="fsl" id="lb">{{ el }}</label><br><br>
+                </div>
               </div>
             {% endif %}
           {% else %}
             {% if el == dict.t %}
-            <div class="input-container" style="background-color: rgb(130, 228, 91);">
-              <div class="tsel">
-                <input type="radio" value="{{ el }}" name="ans" id="tsl" disabled>
-                <label for="tsl" id="lb">{{ el }}</label><br><br>
+              <div class="input-container" style="background-color: rgb(130, 228, 91);">
+                <div class="tsel">
+                  <input type="radio" value="{{ el }}" name="ans" id="tsl" disabled>
+                  <label for="tsl" id="lb">{{ el }}</label><br><br>
+                </div>
               </div>
             {% else %}
-            <div class="input-container">
-              <input type="radio" value="{{ el }}" name="ans" id="ans" disabled>
-              <label for="ans" id="lb">{{ el }}</label><br><br>
+              <div class="input-container">
+                <input type="radio" value="{{ el }}" name="ans" id="ans" disabled>
+                <label for="ans" id="lb">{{ el }}</label><br><br>
+              </div>
             {% endif %}
           {% endif %}
         </div>
-      {% endfor %}
+        {% endfor %}
+      {% elif dict.type == 'mc' %}
+        <form class="fr">
+        <p>{{ dict.question }}</p>
+        {% for el in mylist[loop.index0] %}
+          {% if el in dict.ans %}
+            {% if el == dict.t1 or el == dict.t2 %}
+              <div class="input-container" style="background-color: rgb(130, 228, 91);">
+                <div class="tsel">
+                  <input type="checkbox" checked value="{{ el }}" name="ans" id="ans" disabled>
+                  <label for="ans" id="lb">{{ el }}</label>
+                </div>
+              </div>
+            {% else %}
+              <div class="input-container" style="background-color: rgb(238, 70, 70);">
+                <div class="fsel">
+                  <input type="checkbox" checked value="{{ el }}" name="ans" id="ans" disabled>
+                  <label for="ans" id="lb">{{ el }}</label>
+                </div>
+              </div>
+            {% endif %}
+          {% else %}
+            {% if el == dict.t1 or el == dict.t2 %}
+              <div class="input-container" style="background-color: rgb(130, 228, 91);">
+                <div class="tsel">
+                  <input type="checkbox" value="{{ el }}" name="ans" id="ans" disabled>
+                  <label for="ans" id="lb">{{ el }}</label>
+                </div>
+              </div>
+            {% else %}
+              <div class="input-container">
+                <input type="checkbox" value="{{ el }}" name="ans" id="ans" disabled>
+                <label for="ans" id="lb">{{ el }}</label>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        {% if dict.win %}
+          <form class="fr" style="background-color: rgb(130, 228, 91);">
+            <p class="center">صحيح</p>
+            <p style="text-align: center;">{{ dict.question }}</p>
+            <input type="text" autocomplete="off" class="form-control mx-auto" value="{{ dict.ans }}" name="ans" id="ans" disabled><br><br>
+        {% else %}
+          <form class="fr" style="background-color: rgb(238, 70, 70);">
+            <p class="center">خطأ</p>
+            <p style="text-align: center;">{{ dict.question }}</p>
+            <input type="text" style="border-color: red;" autocomplete="off" class="form-control mx-auto" value="{{ dict.ans }}" name="ans" id="ans" disabled><br><br>
+            <p class="center">الإجابة الصحيحة:</p>
+            <input type="text" style="border-color: lawngreen;" autocomplete="off" class="form-control mx-auto" value="{{ dict.t }}" name="ans" id="ans" disabled><br><br>
+        {% endif %}
+      {% endif %}
     </form><br>
-  {% endif %}
+    {% endif %}
   {% endfor %}
   <div class="center">
     <img src="/static/img/backg.jpg" alt="Imam Mahdi" style="margin-bottom: 20px;">

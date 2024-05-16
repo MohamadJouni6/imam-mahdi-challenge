@@ -8,9 +8,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from random import randint
 import random
+import spacy
 
 # initalize flask app
 app = Flask(__name__)
+
+nlp = spacy.load("xx_ent_wiki_sm")
 
 # Define secret key and hide it
 app.secret_key = os.environ.get("c!o@l#t$a5r6")
@@ -161,11 +164,7 @@ def admin():
     email = request.form.get("email")
     password = request.form.get("password")
     info = request.form.get("info")
-    question = request.form.get("question")
-    f1 = request.form.get("f1")
-    f2 = request.form.get("f2")
-    f3 = request.form.get("f3")
-    tan = request.form.get("tan")
+    ques = request.form.get("question")
     
     # Check which form submitted among the 3 forms
     if name and email and password:
@@ -190,15 +189,35 @@ def admin():
       # redirect to /admin
       return redirect("/admin")
     
-    elif question and f1 and f2 and f3 and tan:
-      # Store False answers in one list
-      mylist = [f1, f2, f3]
+    elif ques:
+      type = request.form.get("type")
+      if type == "oc":
+        f1 = request.form.get("f1")
+        f2 = request.form.get("f2")
+        f3 = request.form.get("f3")
+        tan = request.form.get("tan")
 
-      # Add Question to db
-      parm = {"question": question, "f1": mylist[0], "f2": mylist[1], "f3": mylist[2], "t": tan}
-      connection.execute("INSERT INTO questions (question, f1, f2, f3, t) VALUES(:question, :f1, :f2, :f3, :t)", parm)
-      flash("The Question Was Succesfully Added")
-      
+        # Store False answers in one list
+        mylist = [f1, f2, f3]
+
+        # Add Question to db
+        parm = {"question": ques, "f1": mylist[0], "f2": mylist[1], "f3": mylist[2], "t": tan}
+        connection.execute("INSERT INTO questions (question, f1, f2, f3, t) VALUES(:question, :f1, :f2, :f3, :t)", parm)
+        flash("The Question Was Succesfully Added")
+      elif type == "mc":
+        f1 = request.form.get("mf1")
+        f2 = request.form.get("mf2")
+        f3 = request.form.get("mf3")
+        t1 = request.form.get("mt1")
+        t2 = request.form.get("mt2")
+        parm = {"question": ques, "f1": f1, "f2": f2, "f3": f3, "t1": t1, "t2": t2}
+        connection.execute("INSERT INTO multiple_choice (ques, f1, f2, f3, t1, t2) VALUES(:question, :f1, :f2, :f3, :t1, :t2)", parm)
+        flash("The Question Was Succesfully Added")
+      elif type == "tc":
+        ans = request.form.get("ans")
+        parm = {"ques": ques, "ans": ans}
+        connection.execute("INSERT INTO qt (ques, ans) VALUES(:ques, :ans)", parm)
+        flash("The Question Was Succesfully Added")
       # redirect to /admin
       return redirect("/admin")
     
@@ -212,77 +231,118 @@ def admin():
 def test():
   # if the values of ids, index, scores, list of lists and ans arent intialized in session then initialize it
   connection = engine.connect()
+  global session
   if 'values' not in session:
-    session["values"] = []
-    session['i'] = 0
-    session['score'] = 0
-    session['ans'] = [{}]
-    session['mylist'] = [[]]
-    session['dict'] = {}
-
-  # Check if user is submitting or accesing page
+      session["values"] = []
+      session['mc'] = []
+      session['tc'] = 0
+      session['i'] = 0
+      session['score'] = 0
+      session['ans'] = [{}]
+      session['mylist'] = [[]]
+      session['dict'] = {}
   if request.method == "GET":
-    if 'sub' in session:
-      if session['sub'] == False:
-        return render_template("test.html", ques=session['dict'], mylist=session['mylist'][session['i']])
-    session['sub'] = False
-    # if accesing page and values is empty then fill it with ids of questions from db
     if not session['values']:
       ques_count = connection.execute("SELECT COUNT(*) FROM questions").fetchone()[0]
       while len(session['values']) < 10:
         val = randint(1, ques_count)
         if val not in session['values']:
           session['values'].append(val)
-
-    if session['i'] >= len(session['values']):  # Reset session['i'] if it exceeds the length
+      ques_count = connection.execute("SELECT COUNT(*) FROM multiple_choice").fetchone()[0]
+      while len(session['mc']) < 2:
+        val = randint(1, ques_count)
+        if val not in session['mc']:
+          session['mc'].append(val)
+      ques_count = connection.execute("SELECT COUNT(*) FROM qt").fetchone()[0]
+      session['tc'] = randint(1, ques_count)
+    
+    if session['i'] >= 10:  # Reset session['i'] if it exceeds the length
       session['i'] = 0
+    if session['i'] < 7:
+      ques_id = session['values'][session['i']]
+      parm = {"ques_id": ques_id}
+      ques = connection.execute("SELECT * FROM questions WHERE ques_id = :ques_id", parm).fetchone()
+
+      session['i'] += 1 # increment index by 1
+
+      # put answers in list to be passed to test template
+      mylist= [ques["f1"], ques["t"], ques["f2"], ques["f3"]]
+      
+      # Randomize the order of answers in list
+      random.shuffle(mylist)
+
+      # add the list to session
+      session['dict'] = {"question": ques["question"], 't': ques["t"], 'ques_id': ques_id, 'type': 'oc'}
+      session['mylist'].append(mylist)
+
+      # render page
+      return render_template("test.html", ques=ques, mylist=mylist, type='oc')
+    elif session['i'] < 9:
+      ques_id = session['mc'][session['i'] - 7]
+      parm = {"ques_id": ques_id}
+      ques = connection.execute("SELECT * FROM multiple_choice WHERE mc_id = :ques_id", parm).fetchone()
     
-    # Initialize session['score'] if it doesn't exist yet
-    if 'score' not in session:
-      session['score'] = 0
+      session['i'] += 1 # increment index by 1
+      mylist = [ques["f1"], ques["f2"], ques["f3"], ques["t1"], ques["t2"]]
+      random.shuffle(mylist)
 
-    # get from the db the question with ids stored in db
-    ques_id = session['values'][session['i']]
-    parm = {"ques_id":ques_id}
-    ques = connection.execute("SELECT * FROM questions WHERE ques_id = :ques_id", parm).fetchone()
-    
-    session['i'] += 1 # increment index by 1
+      session['dict'] = {"question": ques["ques"], 't1': ques["t1"], 't2': ques["t2"], 'ques_id': ques_id, 'type': 'mc'}
+      session['mylist'].append(mylist)
+      return render_template("test.html", ques=ques, mylist=mylist, type='mc')
+    else:
+      ques_id = session['tc']
+      parm = {"ques_id": ques_id}
+      ques = connection.execute("SELECT * FROM qt WHERE qt_id = :ques_id", parm).fetchone()
+      session['i'] += 1
+      session['dict'] = {"question": ques["ques"], 't': ques["ans"], 'ques_id': ques_id, 'type': 'tc'}
+      return render_template("test.html", ques=ques, type='tc')
 
-    # put answers in list to be passed to test template
-    mylist= [ques["f1"], ques["t"], ques["f2"], ques["f3"]]
-    
-    # Randomize the order of answers in list
-    random.shuffle(mylist)
-
-    # add the list to session
-    session['dict'] = {"question": ques["question"], 't': ques["t"], 'ques_id': ques_id}
-    session['mylist'].append(mylist)
-
-    # render page
-    return render_template("test.html", ques=ques, mylist=mylist)
-  
   else:
     # Get the answer submitted and id of question
     ques_id = request.form.get("id")
-    ans = request.form.get("ans")
+    type = session['dict']['type']
 
-    if ans is None:
-      flash("يرجى اختيار اجابة")
-      return render_template("test.html", ques=session['dict'], mylist=session['mylist'][session['i']])
-    session['sub'] = True
-
+    if type == 'oc':
     # See what is the true answer for this specific question in db
-    parm = {"ques_id": ques_id}
-    tr_ans = connection.execute("SELECT * FROM questions WHERE ques_id = :ques_id", parm).fetchone()
+      ans = request.form.get("ans")
+      parm = {"ques_id": ques_id}
+      tr_ans = connection.execute("SELECT * FROM questions WHERE ques_id = :ques_id", parm).fetchone()
 
-    # compare the answer submitted with the true answer
-    if tr_ans["t"] == ans:
-      # if true then increment score by 1
-      session['score'] += 1
+      # compare the answer submitted with the true answer
+      if tr_ans["t"] == ans:
+        # if true then increment score by 1
+        session['score'] += 1
 
-    # Add to question list
-    session['dict']['ans'] = ans
-    session['ans'].append(session['dict'])
+      # Add to question list
+      session['dict']['ans'] = ans
+      session['ans'].append(session['dict'])
+
+    elif type == 'mc':
+      ans = request.form.getlist("ans")
+      parm = {"ques_id": ques_id}
+      tr = connection.execute("SELECT * FROM multiple_choice WHERE mc_id = :ques_id", parm).fetchone()
+      l = len(ans)
+      for i in range(l):
+        if ans[i] == tr["t1"] or ans[i] == tr["t2"]:
+          session['score'] += 1
+        else:
+          session['score'] -= 1
+      
+      session['dict']['ans'] = ans
+      session['ans'].append(session['dict'])
+    else:
+      ans = request.form.get("ans")
+      parm = {"ques_id": ques_id}
+      tr = connection.execute("SELECT * FROM qt WHERE qt_id = :ques_id", parm).fetchone()
+      doc1 = nlp(ans)
+      doc2 = nlp(tr["ans"])
+      similar = doc1.similarity(doc2)
+      session['dict']['win'] = False
+      if similar >= 0.7:
+        session['score'] += 3
+        session['dict']['win'] = True
+      session['dict']['ans'] = ans
+      session['ans'].append(session['dict'])
 
     # if user was asked 10 questions
     if session['i'] == 10:
