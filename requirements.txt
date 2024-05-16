@@ -5,3 +5,4 @@ Werkzeug==2.0.2
 gunicorn
 SQLAlchemy==1.4.31
 spacy>=2.3.7
+xx-ent-wiki-sm==3.7.0
