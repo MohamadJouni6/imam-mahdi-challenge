@@ -343,7 +343,7 @@ def test():
       doc2 = nlp(tr["ans"])
       similar = doc1.similarity(doc2)
       session['dict']['win'] = False
-      if similar >= 0.7:
+      if similar >= 0.5:
         session['score'] += 3
         session['dict']['win'] = True
       session['dict']['ans'] = ans
