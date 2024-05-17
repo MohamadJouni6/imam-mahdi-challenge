@@ -13,7 +13,12 @@ import spacy
 # initalize flask app
 app = Flask(__name__)
 
-nlp = spacy.load("xx_ent_wiki_sm")
+model_name = "xx_ent_wiki_sm"
+try:
+  nlp = spacy.load(model_name)
+except OSError:
+  os.system(f"python -m spacy download {model_name}")
+  nlp = spacy.load(model_name)
 
 # Define secret key and hide it
 app.secret_key = os.environ.get("SECRET_KEY")
