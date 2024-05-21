@@ -240,8 +240,8 @@ def admin():
 def test():
   # if the values of ids, index, scores, list of lists and ans arent intialized in session then initialize it
   connection = engine.connect()
-  session['info'] = False
   global session
+  session['info'] = False
   if 'values' not in session:
       session["values"] = []
       session['mc'] = []
