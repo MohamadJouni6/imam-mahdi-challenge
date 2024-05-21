@@ -96,18 +96,22 @@ def index():
     id = connection.execute("SELECT id FROM users WHERE name = :name", parm).fetchone()
     session["user_id"] = id["id"]
 
+    session['info'] = True
+
     # redirect to info page
     return redirect("/info")  
 
 @app.route("/info")
 @login_required
 def info():
-  # Get info stored in database
-  connection = engine.connect()
-  s_info = connection.execute("SELECT cont FROM info").fetchall()
+  if session['info']:
+    # Get info stored in database
+    connection = engine.connect()
+    s_info = connection.execute("SELECT cont FROM info").fetchall()
 
-  # render info template and pass the info to it]
-  return render_template("info.html", s_info=s_info)
+    # render info template and pass the info to it]
+    return render_template("info.html", s_info=s_info)
+  return redirect("/test")
 
 @app.route("/log", methods= ["POST", "GET"])
 def log():
@@ -236,6 +240,7 @@ def admin():
 def test():
   # if the values of ids, index, scores, list of lists and ans arent intialized in session then initialize it
   connection = engine.connect()
+  session['info'] = False
   global session
   if 'values' not in session:
       session["values"] = []
@@ -373,6 +378,7 @@ def scores():
   # set session initial values
   id = session['user_id']
   session.clear()
+  session['info'] = True
   session['user_id'] = id
 
   # redirect to page in which score is shown
