@@ -17,5 +17,5 @@ You can access admin page through entering an admin's email in email's field, th
 2 – Add a Question: You choose the question’s type then insert it to be added to database.
 3 – Add an information that you want it to be displayed in the information page.
 ## Links
-#### Video Demo: [Imam Mahdi Challenge][https://www.youtube.com/watch?v=qsWhXPoR6qY&feature=youtu.be]
-#### Website Link : [Imam-mahdi-challenge][https://www.imam-mahdi-challenge.onrender.com]
+#### Video Demo: [Imam Mahdi Challenge](https://www.youtube.com/watch?v=qsWhXPoR6qY&feature=youtu.be)
+#### Website Link : [Imam-mahdi-challenge](https://www.imam-mahdi-challenge.onrender.com)
