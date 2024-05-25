@@ -41,15 +41,23 @@ Bootstrap was also imported and used to enhance the experience.
 ### Homepage
 Due to the using of Arabic language, the
 It contains an introduction about the competition with its laws, then a "start" button to scroll down to a form in which you put a name and email. The form handles several error cases, as repetition of username and invalid emails.
-
+!(/static/img/scrn/h1)
+!(/static/img/scrn/h2)
 ### Information Page
-In which it carries the information that you will be tested in, with a timer that when it ends, it’ll get you automatically to the test page, or you can press the button below to get it. Some of the information are built in where they cant be edited. But You can add an information if you're an admin.
+In which it carries the information that you will be tested in, with a timer that when it ends, it’ll get you automatically to the test page,
+!(/static/img/scrn/i1)
+or you can press the button below to get it.
+!(/static/img/scrn/i2)
+Some of the information are built in where they cant be edited. But You can add an information if you're an admin.
 Once you leave the the information page you cant go back to it until you'll complete the test.
 ### Test Page
 you are gonna be tested in questions of 3 different types:
 1 – One Choice Question: You choose only one choice in which answers are ordered randomly using shuffle method in python. This type Worths 1 point.
+!(/static/img/scrn/t2)
 2 – Multiple Choice Question: You could choose more than one answer. Also here, answers are ordered randomly. This type Worths 2 points for 2 true answers and -1 point for each false answer.
+!(/static/img/scrn/t3)
 3 – Text Question: You type answer in text field in which it’ll be compared to true answer stored in database using ai using "spacy" library. This type Worths 3 points.
+!(/static/img/scrn/t4)
 Note: Because of the using of Arabic language, the comparision of terms using spacy might not be 100% correct.
 The python code handles the cases of void input, and stores the questions and its squence of answers to be displayed in the scores page with correction.
 ### Scores Page
@@ -60,21 +68,30 @@ elif the score is greater than 7 then its "Good".
 elif the score is greater than 4 then its "Normal".
 else then its "Bad".
 In multiple choice and one choice question, the answers are displayed to the user in the same order it was shown in the test page with correction to it.
+!(/static/img/scrn/s1)
+!(/static/img/scrn/s2)
+!(/static/img/scrn/s3)
+!(/static/img/scrn/s4)
 ### Administration
 You can access admin page through entering an admin's email in email's field, then you'll be redirected to login page in will the user will enter his admin's password.
+!(/static/img/scrn/l1)
 You can:
 1 – Add an admin with an email and password, in order to give him access to this page.
+!(/static/img/scrn/a1)
 2 – Add a Question: You choose the question’s type in a select tag then the type'll be displayed on the screen then insert it to be added to database.
+!(/static/img/scrn/a3)
 3 – Add an information that you want it to be displayed in the information page.
 You can edit the database through administration. It holdes several error cases that would happen.
+!(/static/img/scrn/a2)
 ## Error Handlers
 1 - 404 Error: The website contains an handler for 404 error in which it renders an page that indicates that "Page wasnt Found".
 2 - 500 Error: The website contains an handler for 500 error in which it renders an page that indicates "Internal Server Error".
 ## Images
 Images used in the website.
 ![background](/static/img/backg2.jpg)
+background used for the pages.
 ![image for imam](/static/img/backg.jpg)
-![icon](/static/img/favicon.ico)
+Imam Mahdi(AS).
 ## Links
 #### Video Demo: [Imam Mahdi Challenge](https://www.youtube.com/watch?v=qsWhXPoR6qY&feature=youtu.be)
 #### Website Link : [Imam-mahdi-challenge](https://www.imam-mahdi-challenge.onrender.com)
